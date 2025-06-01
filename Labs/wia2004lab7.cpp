@@ -79,7 +79,7 @@ int main() {
                 fifoQueue.push(reference);
                 loadedPages.insert(reference);
                 pageToIndex[reference] = nextFreeFrame;
-                ++nextFreeFrame;
+                nextFreeFrame++;
             } else {
                 unsigned long long victim = fifoQueue.front();
                 fifoQueue.pop();
