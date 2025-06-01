@@ -3,12 +3,15 @@ Faculty of Computer Science & Information Technology, Universiti Malaya
 Semester 2, Academic Year 2024/2025
 
 ## Repository Structure
+```bash
 WIA2004/
 ├── Labs/           # Contains all lab exercises, source code, and write-ups
 ├── .vscode/        # Workspace settings, launch configurations, and recommended extensions
 ├── LICENSE         # MIT Licence governing the use of this repository
 └── README.md       # You are here
+```
 
+## Directories
 # Labs/
 Each subfolder corresponds to a specific laboratory session for WIA2004. Navigate into a lab folder to compile and execute code as described in that folder’s instructions.
 
@@ -22,6 +25,9 @@ If you’re using VS Code, opening the workspace here will automatically pick up
 
 # LICENSE
 This project is licenced under the MIT License. Refer to the LICENSE file for full permissions and conditions.
+
+# README.md
+This README.md file.
 
 ## Getting Started
 Clone the repository
