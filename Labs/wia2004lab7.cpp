@@ -24,7 +24,7 @@ int main() {
     }
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    cout << "Enter all page references in one line, separated by spaces:\n";
+    cout << "Enter all page references in one line, separated by spaces:";
     string line;
     getline(cin, line);
     istringstream iss(line);
@@ -36,7 +36,7 @@ int main() {
     }
 
     while(pages.size() != numberOfPages) {
-        cout << "Expected " << numberOfPages << " numbers, but got " << pages.size() << ". Re-enter all page references in one line:\n";
+        cout << "Expected " << numberOfPages << " numbers, but got " << pages.size() << ". Re-enter all page references in one line:";
         pages.clear();
         getline(cin, line);
         iss.clear();
@@ -57,7 +57,7 @@ int main() {
     for(unsigned long long i = 0; i < numberOfFrames; i++) {
         cout << setw(10) << ("Frame " + to_string(i + 1));
     }
-    cout << setw(10) << "  Hit/Fault" << "\n";
+    cout << setw(10) << "  Hit/Fault" << endl;
 
     unsigned long long totalColumns = 1 + static_cast<int>(numberOfFrames) + 1;
     unsigned long long totalWidth = totalColumns * 10;
@@ -96,7 +96,7 @@ int main() {
         }
 
         cout << setw(10) << reference;
-        for(unsigned long long i = 0; i < numberOfFrames; ++i) {
+        for(unsigned long long i = 0; i < numberOfFrames; i++) {
             if(frames[i] == -1) {
                 cout << setw(10) << "-";
             } else {
