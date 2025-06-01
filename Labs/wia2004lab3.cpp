@@ -20,10 +20,10 @@ public:
         disk.resize(DISK_SIZE, 0);
     }
 
-    bool allocateFile(string name, int length) {
-        int start = -1, count = 0;
+    bool allocateFile(string name, unsigned long long length) {
+        unsigned long long start = -1, count = 0;
 
-        for(int i = 0; i < DISK_SIZE; ++i) {
+        for(unsigned long long i = 0; i < DISK_SIZE; ++i) {
             if(disk[i] == 0) {
                 if(count == 0) {
                     start = i;
@@ -48,30 +48,30 @@ public:
             cout << "File '" << name << "' allocated from block " << start << " to " << start + length - 1 << "." << endl;
             return true;
         } else {
-            cout << "Not enough contiguous space to allocate file '" << name << "'." << endl;
+            cout << "Not enough contiguous space to allocate File '" << name << "'." << endl;
             return false;
         }
     }
 
     void deallocateFile(string name) {
-        for(int i = 0; i < files.size(); i++) {
+        for(unsigned long long i = 0; i < files.size(); i++) {
             if(files[i].name == name) {
-                for(int j = files[i].startBlock; j < files[i].startBlock + files[i].length; ++j) {
+                for(unsigned long long j = files[i].startBlock; j < files[i].startBlock + files[i].length; ++j) {
                     disk[j] = 0;
                 }
                 
-                cout << "File '" << name << "' deallocated." << endl;
+                cout << "File '" << name << "' has been deallocated." << endl;
                 files.erase(files.begin() + i);
                 return;
             }
         }
 
-        cout << "File '" << name << "' not found." << endl;
+        cout << "File '" << name << "' was not found." << endl;
     }
 
     void showDiskStatus() {
         cout << "Disk blocks: \n";
-        for(int i = 0; i < DISK_SIZE; i++) {
+        for(unsigned long long i = 0; i < DISK_SIZE; i++) {
             cout << disk[i] << " ";
         }
         cout << endl;
@@ -87,8 +87,9 @@ public:
 };
 
 int main() {
-    FileSystem fs;
-    int choice = 0, length = 0;
+    FileSystem fileSystem;
+    int choice = 0;
+    unsigned long long length = 0;
     string name = "";
 
     do {
@@ -103,30 +104,32 @@ int main() {
 
         switch(choice) {
             case 1:
-                cout << "Enter file name: ";
+                cout << "Enter the file name: ";
                 cin >> name;
-                cout << "Enter file size (in blocks): ";
-                cin >> length;
-                fs.allocateFile(name, length);
+                cout << "Enter the file size (in blocks): ";
+                do {
+                    cin >> length;
+                } while(length < 1);
+                fileSystem.allocateFile(name, length);
                 break;
             case 2:
-                cout << "Enter file name to deallocate: ";
+                cout << "Enter the file name to deallocate: ";
                 cin >> name;
-                fs.deallocateFile(name);
+                fileSystem.deallocateFile(name);
                 break;
             case 3:
-                fs.showDiskStatus();
+                fileSystem.showDiskStatus();
                 break;
             case 4:
-                fs.showFileTable();
+                fileSystem.showFileTable();
                 break;
             case 5:
-                cout << "Exiting...\n";
+                cout << "Exiting the system..." << endl;
                 break;
             default:
-                cout << "Invalid choice.\n";
+                cout << "Invalid choice." << endl;
         }
-    } while (choice != 5);
+    } while(choice != 5);
 
     return 0;
 }

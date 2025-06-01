@@ -2,33 +2,33 @@
 #include <vector>
 using namespace std;
 
-void bestFit(vector<int> blockSize, int m, vector<int> processSize, int n) {
-    vector<int> allocation(n, -1), originalBlockSize = blockSize;
+void bestFit(vector<unsigned long long> blockSizes, unsigned long long m, vector<unsigned long long> processSizes, unsigned long long n) {
+    vector<unsigned long long> allocations(n, -1), originalBlockSizes = blockSizes;
 
-    for(int i = 0; i < n; i++) {
-        int bestIndex = -1;
+    for(unsigned long long i = 0; i < n; i++) {
+        unsigned long long bestIndex = -1;
 
-        for(int j = 0; j < m; j++) {
-            if(blockSize[j] >= processSize[i]) {
-                if(bestIndex == -1 || blockSize[j] < blockSize[bestIndex]) {
+        for(unsigned long long j = 0; j < m; j++) {
+            if(blockSizes[j] >= processSizes[i]) {
+                if(bestIndex == -1 || blockSizes[j] < blockSizes[bestIndex]) {
                     bestIndex = j;
                 }
             }
         }
 
         if(bestIndex != -1) {
-            allocation[i] = bestIndex;
-            blockSize[bestIndex] -= processSize[i];
+            allocations[i] = bestIndex;
+            blockSizes[bestIndex] -= processSizes[i];
         }
     }
 
     cout << "Process Number\tProcess Size\tBlock Number\n";
     
-    for(int i = 0; i < n; i++) {
-        cout << (i + 1) << "\t\t" << processSize[i] << "\t\t";
+    for(unsigned long long i = 0; i < n; i++) {
+        cout << (i + 1) << "\t\t" << processSizes[i] << "\t\t";
         
-        if(allocation[i] != -1) {
-            cout << (allocation[i] + 1) << endl;
+        if(allocations[i] != -1) {
+            cout << (allocations[i] + 1) << endl;
         } else {
             cout << "Not Allocated" << endl;
         }
@@ -36,20 +36,22 @@ void bestFit(vector<int> blockSize, int m, vector<int> processSize, int n) {
 
     cout << "\nRemaining Memory in Each Block:\n" << "Block Number\tOriginal Size\tRemaining Size\n";
     
-    for(int j = 0; j < m; j++) {
-        cout << (j + 1) << "\t\t" << originalBlockSize[j] << "\t\t" << blockSize[j] << "\n";
+    for(unsigned long long j = 0; j < m; j++) {
+        cout << (j + 1) << "\t\t" << originalBlockSizes[j] << "\t\t" << blockSizes[j] << "\n";
     }
 }
 
 int main() {
-    int numberOfElements = 0;
+    unsigned long long numberOfElements = 0;
+    cout << "Enter the number of elements: ";
     do {
         cin >> numberOfElements;
     } while(numberOfElements < 1);
-    vector<int> blockSizes = {}, processSizes = {};
+    cout << endl;
+    vector<unsigned long long> blockSizes, processSizes;
 
-    for(int i = 0; i < numberOfElements; i++) {
-        int blockSize = 0, processSize = 0;
+    for(unsigned long long i = 0; i < numberOfElements; i++) {
+        unsigned long long blockSize = 0, processSize = 0;
         cout << "Enter your block size: ";
         do {
             cin >> blockSize;

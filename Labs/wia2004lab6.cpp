@@ -2,40 +2,40 @@
 #include <vector>
 using namespace std;
 
-void calculateBalance(const vector <vector<int> >& target, const vector< vector<int> > &allocation, vector< vector<int> > &balance, int p, int r) {
-    for(int i = 0; i < p; i++) {
-        for(int j = 0; j < r; j++) {
-            balance[i][j] = target[i][j] - allocation[i][j];
+void calculateBalance(const vector <vector<unsigned long long> >& maxMatrix, const vector< vector<unsigned long long> > &allocationMatrix, vector< vector<unsigned long long> > &neededResources, unsigned long long numberOfProcesses, unsigned long long numberOfResources) {
+    for(unsigned long long i = 0; i < numberOfProcesses; i++) {
+        for(unsigned long long j = 0; j < numberOfResources; j++) {
+            neededResources[i][j] = maxMatrix[i][j] - allocationMatrix[i][j];
         }
     }
 }
 
-bool isSafeAllocation(const vector < vector<int> > &allocation, const vector< vector<int> > &balance, const vector<int> &available, int p, int r, vector<int> &safeSequence) {
-    vector<int> work = available;
-    vector<bool> finished(p, false);
-    int count = 0;
+bool isSafeAllocation(const vector < vector<unsigned long long> > &allocationMatrix, const vector< vector<unsigned long long> > &neededResources, const vector<unsigned long long> &availableResources, unsigned long long numberOfProcesses, unsigned long long numberOfResources, vector<unsigned long long> &safeSequence) {
+    vector<unsigned long long> work = available;
+    vector<bool> finishedProcesses(numberofProcesses, false);
+    unsigned long long count = 0;
 
-    while(count < p) {
+    while(count < numberOfProcesses) {
         bool progress = false;
         
-        for(int i = 0; i < p; i++) {
-            if(!finished[i]) {
+        for(unsigned long long i = 0; i < numberOfProcesses; i++) {
+            if(!finishedProcesses[i]) {
                 bool canFinish = true;
                 
-                for(int j = 0; j < r; j++) {
-                    if(balance[i][j] > work[j]) {
+                for(unsigned long long j = 0; j < numberOfProcesses; j++) {
+                    if(neededResources[i][j] > work[j]) {
                         canFinish = false;
                         break;
                     }
                 }
                 
                 if(canFinish) {
-                    for(int j = 0; j < r; j++) {
-                        work[j] += allocation[i][j];
+                    for(unsigned long long j = 0; j < numberOfResources; j++) {
+                        work[j] += allocationMatrix[i][j];
                     }
                     
                     safeSequence[count++] = i;
-                    finished[i] = true;
+                    finishedProcesses[i] = true;
                     progress = true;
                 }
             }
@@ -49,43 +49,50 @@ bool isSafeAllocation(const vector < vector<int> > &allocation, const vector< ve
 }
 
 int main() {
-    int p, r;
-    cout << "Enter number of processes: ";
-    cin >> p;
-    cout << "Enter number of resource types: ";
-    cin >> r;
-
-    vector<vector <int> > allocation(p, vector<int>(r));
-    vector<vector <int> > target(p, vector<int>(r));
-    vector<int> available(r);
+    unsigned long long numberOfProcesses = 0, numberOfResources = 0;
+    cout << "Enter the number of processes: ";
+    do {
+        cin >> p;
+    } while(numberOfProcesses < 1);
+    cout << "Enter the number of resource types: ";
+    do {
+        cin >> r;
+    } while(numberOfResources < 1);
+    vector<vector <unsigned long long> > allocationMatrix(p, vector<unsigned long long>(r)), maxMatrix(p, vector<unsigned long long>(r));
+    vector<unsigned long long> availableResources(r);
 
     cout << "Enter the Allocation Matrix, where the horizontal axis represents the processes, and the vertical axis represents the resources:-" << endl;
-    for(int i = 0; i < p; i++) {
-        for(int j = 0; j < r; j++) {
-            cin >> allocation[i][j];
+    for(unsigned long long i = 0; i < numberOfProcesses; i++) {
+        for(unsigned long long j = 0; j < numberOfResources; j++) {
+            do {
+                cin >> allocationMatrix[i][j];
+            } while(allocationMatrix[i][j] < 0);
         }
     }
 
-    cout << "Enter the Target Matrix, where the horizontal axis represents the processes, and the vertical axis represents the resources:-" << endl;
-    for(int i = 0; i < p; i++) {
-        for(int j = 0; j < r; j++) {
-            cin >> target[i][j];
+    cout << "Enter the Max Matrix, where the horizontal axis represents the processes, and the vertical axis represents the resources:-" << endl;
+    for(unsigned long long i = 0; i < numberOfProcesses; i++) {
+        for(unsigned long long j = 0; j < numberOfResources; j++) {
+            do {
+                cin >> maxMatrix[i][j];
+            } while(maxMatrix[i][j] < 0);
         }
     }
 
     cout << "Enter all the available resources (with a total of " << r << " values): ";
-    for(int j = 0; j < r; j++) {
-        cin >> available[j];
+    for(unsigned long long j = 0; j < numberOfResources; j++) {
+        do {
+            cin >> availableResources[j];
+        } while(availableResources[j] < 0);
     }
 
-    vector< vector<int> > balance(p, vector<int>(r));
-    calculateBalance(target, allocation, balance, p, r);
+    vector< vector<unsigned long long> > neededResources(numberOfProcesses, vector<unsigned long long>(numberOfResources));
+    calculateBalance(maxMatrix, allocationMatrix, neededResources, numberOfProcesses, numberofResources);
+    vector<unsigned long long> safeSequence(numberOfProcesses);
 
-    vector<int> safeSequence(p);
-
-    if(isSafeAllocation(allocation, balance, available, p, r, safeSequence)) {
+    if(isSafeAllocation(allocationMatrix, neededResources, availableResources, numberOfProcesses, numberOfResources, safeSequence)) {
         cout << "The resource allocation is safe.\nThe safe sequence is: ";
-        for(int i = 0; i < p; i++) {
+        for(unsigned long long i = 0; i < numberofProcesses; i++) {
             cout << "Process " << safeSequence[i] + 1;
             
             if(i != p - 1) {
