@@ -13,19 +13,19 @@ void sleep_random(unsigned long long minimumTime_ms, unsigned long long maximumT
 }
 
 struct PhilosopherArguments {
-    unsigned long long index, rounds, numberOfPhilosophers;
+    unsigned long long index, numberOfRounds, numberOfPhilosophers;
     pthread_mutex_t* forks;
 };
 
 void* philosopherFunction(void* v_arg) {
     PhilosopherArguments* arguments = static_cast<PhilosopherArguments*>(v_arg);
     unsigned long long index = arguments->index;
-    unsigned long long rounds = arguments->rounds;
+    unsigned long long numberOfRounds = arguments->numberOfRounds;
     unsigned long long numberOfPhilosophers = arguments->numberOfPhilosophers;
     pthread_mutex_t* forks = arguments->forks;
     unsigned long long leftIndex  = index, rightIndex = (index + 1ULL) % numberOfPhilosophers;
 
-    for(unsigned long long i = 0; i < rounds; i++) {
+    for(unsigned long long i = 0; i < numberOfRounds; i++) {
         cout << "[Philosopher " << index << "] is thinking (round " << (i + 1) << ")" << endl;
         sleep_random(200, 600);
 
@@ -41,13 +41,13 @@ void* philosopherFunction(void* v_arg) {
         cout << "[Philosopher " << index << "] has put down forks (" << leftIndex << ", " << rightIndex << "), thus round " << (i + 1) << " is done." << endl;
     }
 
-    cout << "[Philosopher " << index << "] Finished all " << rounds << " rounds." << endl;
+    cout << "[Philosopher " << index << "] Finished all " << numberOfRounds << " numberOfRounds." << endl;
     return nullptr;
 }
 
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
-    unsigned long long numberOfPhilosophers = 0, rounds = 0;
+    unsigned long long numberOfPhilosophers = 0, numberOfRounds = 0;
     cout << "Enter the number of philosophers: ";
     while(!(cin >> numberOfPhilosophers) || numberOfPhilosophers < 2ULL) {
         cin.clear();
@@ -56,7 +56,7 @@ int main() {
     }
 
     cout << "Enter the number of think/eat rounds per philosopher: ";
-    while(!(cin >> rounds) || rounds < 1ULL) {
+    while(!(cin >> numberOfRounds) || numberOfRounds < 1ULL) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Please enter a positive whole number: ";
@@ -72,7 +72,7 @@ int main() {
 
     for(unsigned long long i = 0; i < numberOfPhilosophers; i++) {
         arguments[i].index = i;
-        arguments[i].rounds = rounds;
+        arguments[i].numberOfRounds = numberOfRounds;
         arguments[i].numberOfPhilosophers = numberOfPhilosophers;
         arguments[i].forks = forks;
         pthread_create(&threads[i], nullptr, philosopherFunction, &arguments[i]);
