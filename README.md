@@ -5,17 +5,17 @@ Semester 2, Academic Year 2024/2025
 ## Repository Structure
 ```bash
 WIA2004/
-├── Labs/           # Contains all lab exercises, source code, and write-ups
-├── .vscode/        # Workspace settings, launch configurations, and recommended extensions
+├── Labs/           # Contains all lab implementations (in C++)
+├── .vscode/        # Workspace settings, launch configurations, and recommended extensions for VS Code
 ├── LICENSE         # MIT Licence governing the use of this repository
 └── README.md       # You are here
 ```
 
 ## Directories
-# Labs/
+### Labs/
 Each subfolder corresponds to a specific laboratory session for WIA2004. Navigate into a lab folder to compile and execute code as described in that folder’s instructions.
 
-# .vscode/
+### .vscode/
 Contains Visual Studio Code settings and launch configurations to streamline development:
 - settings.json: Editor preferences (indentation, formatting, etc.)
 - launch.json: Debugging profiles (e.g., how to build/run a C/Java program)
@@ -23,10 +23,10 @@ Contains Visual Studio Code settings and launch configurations to streamline dev
 
 If you’re using VS Code, opening the workspace here will automatically pick up these configurations.
 
-# LICENSE
-This project is licenced under the MIT License. Refer to the LICENSE file for full permissions and conditions.
+### LICENSE
+This project is licenced under the MIT Licence. Refer to the LICENSE file for full permissions and conditions.
 
-# README.md
+### README.md
 This README.md file.
 
 ## Getting Started
