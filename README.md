@@ -1,6 +1,7 @@
 # WIA2004: Operating Systems
-Faculty of Computer Science & Information Technology, Universiti Malaya
-Semester 2, Academic Year 2024/2025
+<br>Faculty of Computer Science & Information Technology, Universiti Malaya</br>
+<br>Semester 2, Academic Year 2024/2025</br>
+<br>_Prepared by: Wong Yoong Yee_</br>
 
 ## Repository Structure
 ```bash
